@@ -2,8 +2,12 @@ import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Hiyana World Logistics Pvt Ltd" },
+    {
+      name: "description",
+      content:
+        "Hiyana World Logistics Pvt Ltd is the best total transportation and logistics solution. We specialize in the full spectrum of international freight forwarding and transportation service by Land, Sea, Air.",
+    },
   ];
 }
 
