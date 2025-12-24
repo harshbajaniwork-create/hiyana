@@ -1,3 +1,4 @@
+import { HomeView } from "~/modules/home/ui/views/home-view";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -12,15 +13,5 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return (
-    <div className="min-h-screen">
-      <h1>Home</h1>
-      <div className="min-h-screen">
-        <h1>Home</h1>
-      </div>
-      <div className="min-h-screen">
-        <h1>Home</h1>
-      </div>
-    </div>
-  );
+  return <HomeView />;
 }

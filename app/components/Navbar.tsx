@@ -18,7 +18,7 @@ function AnimatedUnderline({
     <motion.div
       className={cn(
         "absolute bottom-1 left-0 right-0 h-0.5 origin-left",
-        scrolled ? "bg-white" : "bg-black"
+        scrolled ? "bg-orange-400" : "bg-white"
       )}
       initial={{ scaleX: isActive ? 1 : 0 }}
       animate={{ scaleX: isActive ? 1 : isHovered ? 1 : 0 }}
@@ -104,7 +104,10 @@ function DropdownItem({
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block relative text-black"
+              className={cn(
+                "inline-block relative text-lg",
+                scrolled ? "text-black" : "text-white"
+              )}
               onMouseEnter={() => setIsNavHovered(true)}
               onMouseLeave={() => setIsNavHovered(false)}
             >
@@ -152,7 +155,10 @@ function DropdownItem({
           transition={{ duration: 0.3 }}
         >
           <FiChevronDown
-            className={cn("transition-colors duration-200 text-black")}
+            className={cn(
+              "transition-colors duration-200 text-lg",
+              scrolled ? "text-black" : "text-white"
+            )}
           />
         </motion.div>
       </div>
@@ -224,7 +230,7 @@ function NavItem({
         to={item.href || "#"}
         className={({ isActive }) =>
           cn(
-            "px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-ring/50 relative block",
+            "px-3 py-2 rounded-md text-lg font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-ring/50 relative block",
             scrolled ? "text-black" : "text-foreground"
           )
         }
@@ -234,7 +240,10 @@ function NavItem({
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block relative text-black"
+              className={cn(
+                "inline-block relative ",
+                scrolled ? "text-black" : "text-white"
+              )}
             >
               {item.name}
             </motion.span>
@@ -267,7 +276,8 @@ export default function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-300 bg-white"
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        scrolled ? "bg-white" : "bg-transparent"
       )}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
@@ -280,7 +290,7 @@ export default function Navbar() {
           >
             <Link to="/" className="flex items-center gap-0">
               <motion.img
-                src="/logo.png"
+                src="/logo-transparent.png"
                 alt="Logo"
                 className="h-12 sm:h-16 w-auto object-contain p-2"
                 whileHover={{ scale: 1.05 }}
@@ -341,7 +351,9 @@ export default function Navbar() {
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >
-            <FiMenu className="h-6 w-6 text-black" />
+            <FiMenu
+              className={cn("h-6 w-6 ", scrolled ? "text-black" : "text-white")}
+            />
           </motion.button>
         </div>
       </nav>
