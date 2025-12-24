@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,16 +9,18 @@ function AnimatedUnderline({
   isHovered,
   isActive,
   scrolled,
+  isHome,
 }: {
   isHovered: boolean;
   isActive: boolean;
   scrolled: boolean;
+  isHome: boolean;
 }) {
   return (
     <motion.div
       className={cn(
         "absolute bottom-1 left-0 right-0 h-0.5 origin-left",
-        scrolled ? "bg-orange-400" : "bg-white"
+        isHome ? (scrolled ? "bg-orange-400" : "bg-white") : "bg-orange-400" // always orange on non-home (white underline would be invisible on white bg)
       )}
       initial={{ scaleX: isActive ? 1 : 0 }}
       animate={{ scaleX: isActive ? 1 : isHovered ? 1 : 0 }}
@@ -31,6 +33,7 @@ function DropdownItem({
   item,
   index,
   scrolled,
+  isHome,
 }: {
   item: {
     name: string;
@@ -39,13 +42,19 @@ function DropdownItem({
   };
   index: number;
   scrolled: boolean;
+  isHome: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
 
-  // consider the item disabled if it's Services (or explicitly /services)
   const isDisabled =
     item.href === "/services" || item.name.toLowerCase() === "services";
+
+  const textColorClass = isHome
+    ? scrolled
+      ? "text-black"
+      : "text-white"
+    : "text-black";
 
   return (
     <motion.li
@@ -63,13 +72,8 @@ function DropdownItem({
       }}
     >
       <div className="flex items-center">
-        {/*
-          If disabled (Services), render a focusable non-link element.
-          Otherwise render NavLink as before.
-        */}
         {isDisabled ? (
           <div
-            // Keep it keyboard-focusable and role=button so it's discoverable but not navigable
             role="button"
             tabIndex={0}
             aria-haspopup={!!item.children?.length}
@@ -83,31 +87,23 @@ function DropdownItem({
               setIsNavHovered(false);
             }}
             onKeyDown={(e) => {
-              // prevent Enter/Space from doing anything (no navigation)
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
               }
-              // allow keyboard users to open the dropdown with ArrowDown if you want:
-              // if (e.key === "ArrowDown") setIsHovered(true);
             }}
             onClick={(e) => {
-              // prevent any accidental navigation
               e.preventDefault();
             }}
             className={cn(
               "px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-ring/50 flex items-center gap-1 relative",
-              scrolled ? "text-black" : "text-foreground",
-              // indicate it's non-clickable visually (optional)
+              textColorClass,
               "cursor-default select-none"
             )}
           >
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={cn(
-                "inline-block relative text-lg",
-                scrolled ? "text-black" : "text-white"
-              )}
+              className={cn("inline-block relative text-lg", textColorClass)}
               onMouseEnter={() => setIsNavHovered(true)}
               onMouseLeave={() => setIsNavHovered(false)}
             >
@@ -117,6 +113,7 @@ function DropdownItem({
               isHovered={isNavHovered || isHovered}
               isActive={false}
               scrolled={scrolled}
+              isHome={isHome}
             />
           </div>
         ) : (
@@ -125,7 +122,7 @@ function DropdownItem({
             className={({ isActive }) =>
               cn(
                 "px-3 py-2 rounded-md text-sm font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-ring/50 flex items-center gap-1 relative",
-                scrolled ? "text-black" : "text-foreground"
+                textColorClass
               )
             }
           >
@@ -144,6 +141,7 @@ function DropdownItem({
                   isHovered={isNavHovered || isHovered}
                   isActive={isActive}
                   scrolled={scrolled}
+                  isHome={isHome}
                 />
               </>
             )}
@@ -157,7 +155,7 @@ function DropdownItem({
           <FiChevronDown
             className={cn(
               "transition-colors duration-200 text-lg",
-              scrolled ? "text-black" : "text-white"
+              textColorClass
             )}
           />
         </motion.div>
@@ -207,6 +205,7 @@ function NavItem({
   item,
   index,
   scrolled,
+  isHome,
 }: {
   item: {
     name: string;
@@ -215,8 +214,15 @@ function NavItem({
   };
   index: number;
   scrolled: boolean;
+  isHome: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+
+  const textColorClass = isHome
+    ? scrolled
+      ? "text-black"
+      : "text-white"
+    : "text-black";
 
   return (
     <motion.li
@@ -231,7 +237,7 @@ function NavItem({
         className={({ isActive }) =>
           cn(
             "px-3 py-2 rounded-md text-lg font-medium hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-ring/50 relative block",
-            scrolled ? "text-black" : "text-foreground"
+            textColorClass
           )
         }
       >
@@ -240,10 +246,7 @@ function NavItem({
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={cn(
-                "inline-block relative ",
-                scrolled ? "text-black" : "text-white"
-              )}
+              className={cn("inline-block relative", textColorClass)}
             >
               {item.name}
             </motion.span>
@@ -251,6 +254,7 @@ function NavItem({
               isHovered={isHovered}
               isActive={isActive}
               scrolled={scrolled}
+              isHome={isHome}
             />
           </>
         )}
@@ -262,6 +266,14 @@ function NavItem({
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const textColorClass = isHome
+    ? scrolled
+      ? "text-black"
+      : "text-white"
+    : "text-black";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -307,12 +319,7 @@ export default function Navbar() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="hidden lg:flex items-center gap-1"
           >
-            <ul
-              className={cn(
-                "flex items-center gap-6",
-                scrolled ? "text-black" : "text-foreground"
-              )}
-            >
+            <ul className={cn("flex items-center gap-6", textColorClass)}>
               {NavItems.map((item, index) => {
                 const hasChildren = item.children && item.children.length > 0;
                 if (!hasChildren) {
@@ -322,6 +329,7 @@ export default function Navbar() {
                       item={item}
                       index={index}
                       scrolled={scrolled}
+                      isHome={isHome}
                     />
                   );
                 }
@@ -331,6 +339,7 @@ export default function Navbar() {
                     item={item}
                     index={index}
                     scrolled={scrolled}
+                    isHome={isHome}
                   />
                 );
               })}
@@ -344,16 +353,16 @@ export default function Navbar() {
             whileTap={{ scale: 0.9 }}
             className={cn(
               "lg:hidden inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-ring/50",
-              scrolled
-                ? "text-black hover:bg-white/10"
-                : "text-foreground hover:bg-foreground/5"
+              isHome
+                ? scrolled
+                  ? "text-black hover:bg-white/10"
+                  : "text-white hover:bg-white/5"
+                : "text-black hover:bg-gray-100"
             )}
-            onClick={() => setMobileOpen(true)}
+            onClick={() => setMobileOpen(false)}
             aria-label="Open menu"
           >
-            <FiMenu
-              className={cn("h-6 w-6 ", scrolled ? "text-black" : "text-white")}
-            />
+            <FiMenu className={cn("h-6 w-6", textColorClass)} />
           </motion.button>
         </div>
       </nav>
@@ -388,7 +397,7 @@ export default function Navbar() {
                   type="button"
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
-                  className="rounded-md p-2 text-foreground hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring/50"
+                  className="rounded-md p-2 text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring/50"
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close menu"
                 >
@@ -411,15 +420,11 @@ export default function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.05 }}
                       >
-                        {/* If Services (or explicit /services) => prevent navigation on parent */}
                         <Link
                           to={item.href || "#"}
                           onClick={(e) => {
                             if (isServices && hasChildren) {
-                              // Prevent navigation for Services parent; keep mobile open (or toggle if you implement)
                               e.preventDefault();
-                              // We keep children visible by default in your current mobile UI,
-                              // so just do nothing further here.
                               return;
                             }
                             setMobileOpen(false);

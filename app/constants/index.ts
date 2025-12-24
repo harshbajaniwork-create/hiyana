@@ -213,3 +213,42 @@ export const Testimonials = [
     image: "/testimonials/test-3.jpg",
   },
 ];
+
+export const OurValues = [
+  {
+    title: "Safety First",
+    description:
+      "Safety is our top priority in every operation. We have an unwavering obligation to our associates and the public to operate safely—nothing we do is worth hurting ourselves or others.",
+    icon: "Shield",
+  },
+  {
+    title: "Integrity",
+    description:
+      "We conduct our business with the highest ethical standards. Truth and honesty define how we operate in every action and decision we make.",
+    icon: "CheckCircle",
+  },
+  {
+    title: "Respect for All",
+    description:
+      "We seek and value diversity of perspective, experience, and background as the foundation of our enterprise. We treat all stakeholders with dignity and respect.",
+    icon: "Users",
+  },
+  {
+    title: "Excellence",
+    description:
+      "We strive to provide the highest quality services to our partners. We have a relentless passion for innovation and continuous improvement in everything we do.",
+    icon: "Award",
+  },
+  {
+    title: "Customer Advantage",
+    description:
+      "We innovate to be our customers' preferred choice and deliver service excellence. We continuously strive to improve speed, cost, and quality for competitive advantage.",
+    icon: "Target",
+  },
+  {
+    title: "Accountability",
+    description:
+      "Each of us accepts responsibility for meeting our commitments. We achieve superior results by holding ourselves accountable to our promises and goals.",
+    icon: "ShieldCheck",
+  },
+];

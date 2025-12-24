@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 export const CTASection = () => {
   return (
-    <section className="relative flex justify-start overflow-visible">
+    <section className="relative flex justify-start overflow-visible pb-24 lg:pb-32">
       {/* Centered card with overflow visible */}
       <div className="bg-black w-full sm:max-w-[85%] relative lg:-mt-2 z-20">
         {/* Geometric Hex/Grid Pattern Background */}

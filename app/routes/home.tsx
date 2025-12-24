@@ -3,11 +3,14 @@ import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Hiyana World Logistics Pvt Ltd" },
+    {
+      title:
+        "Hiyana World Logistics - International Freight Forwarding | Air, Sea & Road Transport",
+    },
     {
       name: "description",
       content:
-        "Hiyana World Logistics Pvt Ltd is the best total transportation and logistics solution. We specialize in the full spectrum of international freight forwarding and transportation service by Land, Sea, Air.",
+        "Leading logistics company with 50+ years expertise. Specializing in international freight forwarding, FCL/LCL consolidation, air freight, and road transport across 26 branches in India. Competitive rates, 45-day free storage.",
     },
   ];
 }
