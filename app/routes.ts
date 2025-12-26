@@ -7,8 +7,8 @@ export default [
   route("we-export", "routes/we-export.tsx"),
   route("services", "routes/services/layout.tsx", [
     index("routes/services/services.tsx"),
-    route("sea-fright-fcl", "routes/services/sea-fright-fcl.tsx"),
-    route("air-fright", "routes/services/air-fright.tsx"),
+    route("sea-freight-fcl", "routes/services/sea-fright-fcl.tsx"),
+    route("air-freight", "routes/services/air-fright.tsx"),
     route("lcl-consolidation", "routes/services/lcl-consolidation.tsx"),
     route("iso-tanks", "routes/services/iso-tanks.tsx"),
     route("transportation", "routes/services/transportation.tsx"),

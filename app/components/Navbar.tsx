@@ -18,10 +18,6 @@ function AnimatedUnderline({
   isHome: boolean;
   isServicesPage: boolean;
 }) {
-  // Underline color: white only if on home AND not scrolled, OR on services (but underline on services may be invisible on image... so we use orange everywhere except home unscrolled)
-  // But note: on services pages, background is image → underline should be visible → use white?
-  // However, your original spec only asked for *text* to be white; underline can stay orange for visibility.
-  // So we keep underline logic as: white only on unscrolled home. Everywhere else → orange.
   const underlineColor = isHome && !scrolled ? "bg-white" : "bg-orange-400";
 
   return (
@@ -277,9 +273,9 @@ export default function Navbar() {
   const isHome = location.pathname === "/";
   const isServicesPage = location.pathname.startsWith("/services");
 
-  // Centralized text color logic
+  // Updated text color logic: white only when NOT scrolled on home OR services pages
   const textColorClass =
-    (isHome && !scrolled) || isServicesPage ? "text-white" : "text-black";
+    (isHome || isServicesPage) && !scrolled ? "text-white" : "text-black";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -368,10 +364,12 @@ export default function Navbar() {
                   ? "text-black hover:bg-white/10"
                   : "text-white hover:bg-white/5"
                 : isServicesPage
-                  ? "text-white hover:bg-white/5"
+                  ? scrolled
+                    ? "text-black hover:bg-gray-100"
+                    : "text-white hover:bg-white/5"
                   : "text-black hover:bg-gray-100"
             )}
-            onClick={() => setMobileOpen(true)} // ⚠️ Fixed: was setMobileOpen(false)!
+            onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >
             <FiMenu className={cn("h-6 w-6", textColorClass)} />

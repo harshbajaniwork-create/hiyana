@@ -12,12 +12,12 @@ export const NavItems = [
     href: "/services",
     children: [
       {
-        name: "Sea Fright FCL",
-        href: "/services/sea-fright-fcl",
+        name: "Sea Freight FCL",
+        href: "/services/sea-freight-fcl",
       },
       {
-        name: "Air Fright",
-        href: "/services/air-fright",
+        name: "Air Freight",
+        href: "/services/air-freight",
       },
       {
         name: "LCL Consolidation",
@@ -89,11 +89,11 @@ export const FooterQuickLinks = [
 export const FooterServiceLinks = [
   {
     name: "Sea Fright FCL",
-    href: "/services/sea-fright-fcl",
+    href: "/services/sea-freight-fcl",
   },
   {
     name: "Air Fright",
-    href: "/services/air-fright",
+    href: "/services/air-freight",
   },
   {
     name: "LCL Consolidation",
