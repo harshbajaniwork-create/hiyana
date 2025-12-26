@@ -1,41 +1,48 @@
-import { useLayoutEffect, useRef, type ReactNode } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger, ScrollSmoother } from "gsap/all";
-import { useGSAP } from "@gsap/react";
+import { useLayoutEffect, useRef, useEffect, type ReactNode } from "react";
 import { setGlobalSmoother } from "../lib/utils"; // Import the global setter
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const ScrollSmoothProvider = ({ children }: { children: ReactNode }) => {
   const smoothWrapperRef = useRef<HTMLDivElement | null>(null);
   const smoothContentRef = useRef<HTMLDivElement | null>(null);
-  const smootherInstance = useRef<ScrollSmoother | null>(null);
+  const smootherInstance = useRef<any>(null);
 
-  useGSAP(() => {
-    // Ensure DOM is ready
-    if (!smoothWrapperRef.current || !smoothContentRef.current) return;
+  useEffect(() => {
+    // Only run on client-side
+    if (typeof window === "undefined") return;
 
-    // Kill any existing ScrollSmoother instance
-    if (smootherInstance.current) {
-      smootherInstance.current.kill();
-    }
+    // Dynamically import GSAP only on client-side
+    Promise.all([
+      import("gsap"),
+      import("gsap/all"),
+      import("@gsap/react"),
+    ]).then(([{ gsap }, { ScrollTrigger, ScrollSmoother }]) => {
+      // Register GSAP plugins
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-    // Create ScrollSmoother instance
-    smootherInstance.current = ScrollSmoother.create({
-      wrapper: smoothWrapperRef.current,
-      content: smoothContentRef.current,
-      smooth: 1.5, // Smooth scrolling intensity
-      effects: true, // Enable data-speed effects
-      smoothTouch: 0.1, // Smooth scrolling on touch devices (mobile)
-      normalizeScroll: true, // Normalizes scrolling across different devices
+      // Ensure DOM is ready
+      if (!smoothWrapperRef.current || !smoothContentRef.current) return;
+
+      // Kill any existing ScrollSmoother instance
+      if (smootherInstance.current) {
+        smootherInstance.current.kill();
+      }
+
+      // Create ScrollSmoother instance
+      smootherInstance.current = ScrollSmoother.create({
+        wrapper: smoothWrapperRef.current,
+        content: smoothContentRef.current,
+        smooth: 1.5, // Smooth scrolling intensity
+        effects: true, // Enable data-speed effects
+        smoothTouch: 0.1, // Smooth scrolling on touch devices (mobile)
+        normalizeScroll: true, // Normalizes scrolling across different devices
+      });
+
+      // Set global reference for other components to use
+      setGlobalSmoother(smootherInstance.current);
+
+      // Refresh ScrollTrigger instances when ScrollSmoother is ready
+      ScrollTrigger.refresh();
     });
-
-    // Set global reference for other components to use
-    setGlobalSmoother(smootherInstance.current);
-
-    // Refresh ScrollTrigger instances when ScrollSmoother is ready
-    ScrollTrigger.refresh();
 
     return () => {
       if (smootherInstance.current) {
@@ -48,13 +55,18 @@ const ScrollSmoothProvider = ({ children }: { children: ReactNode }) => {
 
   // Handle route changes - refresh ScrollSmoother
   useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+
     const refreshSmoother = () => {
       if (smootherInstance.current) {
         // Small delay to ensure DOM is updated
         setTimeout(() => {
           // Guard again inside timeout
           smootherInstance.current?.refresh();
-          ScrollTrigger.refresh();
+          // Dynamically import ScrollTrigger to refresh
+          import("gsap/all").then(({ ScrollTrigger }) => {
+            ScrollTrigger.refresh();
+          });
         }, 100);
       }
     };

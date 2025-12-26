@@ -1,18 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MapPin } from "lucide-react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   Marker,
 } from "react-simple-maps";
-
-gsap.registerPlugin(ScrollTrigger);
 
 // GeoJSON URL for world map
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -41,8 +36,19 @@ export const CountriesWeExport = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const legendRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
+  useEffect(() => {
+    // Only run on client-side
+    if (typeof window === "undefined") return;
+
+    // Dynamically import GSAP only on client-side
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger"),
+      import("@gsap/react"),
+    ]).then(([{ gsap }, { ScrollTrigger }, { useGSAP }]) => {
+      // Register GSAP plugins
+      gsap.registerPlugin(ScrollTrigger);
+
       // Title animation
       if (titleRef.current) {
         gsap.from(titleRef.current, {
@@ -86,9 +92,8 @@ export const CountriesWeExport = () => {
           ease: "power3.out",
         });
       }
-    },
-    { scope: sectionRef }
-  );
+    });
+  }, []);
 
   return (
     <section ref={sectionRef} className="bg-gray-50 py-16 md:py-24 lg:py-32">
