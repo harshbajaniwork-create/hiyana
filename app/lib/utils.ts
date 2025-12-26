@@ -1,12 +1,12 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { ScrollSmoother } from "gsap/ScrollSmoother";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-let globalSmoother: ScrollSmoother | null = null;
+// Use any type to avoid SSR issues with GSAP types
+let globalSmoother: any = null;
 
 export const setGlobalSmoother = (smoother: ScrollSmoother | null) => {
   globalSmoother = smoother;
