@@ -10,7 +10,7 @@ export function generateMetaTags({
   title,
   description,
   url,
-  image = "https://hiyana.vercel.app/images/og-image.jpg",
+  image = "https://hiyana.vercel.app/logo.png",
   keywords = [],
 }: MetaTags) {
   const siteName = "Hiyana World Logistics";
@@ -96,7 +96,7 @@ export function generateMetaTags({
 export const commonMeta = {
   siteName: "Hiyana World Logistics",
   baseUrl: "https://hiyana.vercel.app",
-  defaultImage: "https://hiyana.vercel.app/images/og-image.jpg",
+  defaultImage: "https://hiyana.vercel.app/logo.png",
   defaultKeywords: [
     "logistics services",
     "international freight forwarding",
