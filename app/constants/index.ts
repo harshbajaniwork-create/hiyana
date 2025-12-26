@@ -182,7 +182,7 @@ export const OurCustomers = [
   "/customers/vap-chem.png",
   "/customers/relaxo.png",
   "/customers/exide.png",
-  "/customers/aari-drugs.png",
+  "/customers/aarti-drugs.png",
   "/customers/aqualite.png",
   "/customers/legrand.png",
 ];
@@ -250,5 +250,29 @@ export const OurValues = [
     description:
       "Each of us accepts responsibility for meeting our commitments. We achieve superior results by holding ourselves accountable to our promises and goals.",
     icon: "ShieldCheck",
+  },
+];
+
+export const faqs = [
+  {
+    question: "How many years of experience does Hiyana World Logistics have?",
+    answer:
+      "Founded in 2016, Hiyana World Logistics is backed by over 5 decades of transport excellence through our parent company, Mumbai Transport Company. With more than 50 years of combined expertise in road transport and international freight forwarding, we bring unparalleled reliability and industry knowledge to every shipment.",
+  },
+  {
+    question: "What free storage time do you offer?",
+    answer:
+      "We offer 30 to 45 days free storage time for both imports and exports (LCL & FCL shipments) at select locations including Mundra and Nhava Sheva ports. This significantly reduces warehousing costs and provides flexibility for your cargo management.",
+  },
+  {
+    question: "What destinations do you cover?",
+    answer:
+      "We provide comprehensive coverage with 26 branches across India covering 108 routes nationwide, plus international freight forwarding to worldwide destinations. Our services extend to Europe, Gulf, Middle East, Africa, CIS countries, and beyond through our global network of partners.",
+  },
+  {
+    question:
+      "Do you handle specialized cargo like ISO tanks and reefer containers?",
+    answer:
+      "Yes, we specialize in handling ISO tanks for liquid cargo and reefer containers for temperature-controlled shipments, particularly pharmaceutical products. We have dedicated fleets with double gensets for reefers, specialized teams for monitoring, and our own empty yard in Mundra. We're one of the most competitively priced ISO carriers in India.",
   },
 ];

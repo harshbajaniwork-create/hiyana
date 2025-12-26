@@ -26,17 +26,17 @@ export const StatsSection = () => {
           {/* Stat 2 */}
           <div className="text-center">
             <div className="text-4xl sm:text-5xl font-bold">
-              650<span className="text-orange-400 text-2xl sm:text-3xl">+</span>
+              26<span className="text-orange-400 text-2xl sm:text-3xl">+</span>
             </div>
             <p className="mt-2 text-sm sm:text-lg text-gray-300">
-              Clients worldwide
+              Branches across India
             </p>
           </div>
 
           {/* Stat 3 */}
           <div className="text-center">
             <div className="text-4xl sm:text-5xl font-bold">
-              30<span className="text-orange-400 text-2xl sm:text-3xl">+</span>
+              50<span className="text-orange-400 text-2xl sm:text-3xl">+</span>
             </div>
             <p className="mt-2 text-sm sm:text-lg text-gray-300">
               Years of experience

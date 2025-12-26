@@ -80,6 +80,7 @@ const Footer = () => {
                 <Phone className="w-5 h-5 text-teal-green shrink-0" />
                 <a
                   href="tel:+9125915894"
+                  target="_blank"
                   className="hover:text-turquoise-blue transition-colors duration-200"
                 >
                   (0091) 25915894/95/96
@@ -89,6 +90,7 @@ const Footer = () => {
                 <Mail className="w-5 h-5 text-teal-green shrink-0" />
                 <a
                   href="mailto:info@hiyana.in"
+                  target="_blank"
                   className="hover:text-turquoise-blue transition-colors duration-200"
                 >
                   info@hiyana.in
