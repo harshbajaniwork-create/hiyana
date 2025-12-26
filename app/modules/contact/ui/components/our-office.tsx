@@ -28,7 +28,14 @@ export const OurOffice = () => {
                 </div>
                 <div>
                   <h4 className="text-white font-bold mb-2">Phone</h4>
-                  <p className="text-gray-400">+91 25915894</p>
+                  <p className="text-gray-400">+022 25915894</p>
+                </div>
+                <div>
+                  <h4 className="text-white font-bold mb-2">Address</h4>
+                  <p className="text-gray-400">
+                    B-3, Gr Floor, Suyog estate Corporation Marg, Mulund (W),
+                    Mumbai - 400 080. Maharashtra India.
+                  </p>
                 </div>
               </div>
 
