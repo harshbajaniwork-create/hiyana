@@ -1,26 +1,34 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router";
 import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
 import { cn } from "../lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavItems } from "../constants";
+import { Link, NavLink, useLocation } from "react-router";
 
 function AnimatedUnderline({
   isHovered,
   isActive,
   scrolled,
   isHome,
+  isServicesPage,
 }: {
   isHovered: boolean;
   isActive: boolean;
   scrolled: boolean;
   isHome: boolean;
+  isServicesPage: boolean;
 }) {
+  // Underline color: white only if on home AND not scrolled, OR on services (but underline on services may be invisible on image... so we use orange everywhere except home unscrolled)
+  // But note: on services pages, background is image → underline should be visible → use white?
+  // However, your original spec only asked for *text* to be white; underline can stay orange for visibility.
+  // So we keep underline logic as: white only on unscrolled home. Everywhere else → orange.
+  const underlineColor = isHome && !scrolled ? "bg-white" : "bg-orange-400";
+
   return (
     <motion.div
       className={cn(
         "absolute bottom-1 left-0 right-0 h-0.5 origin-left",
-        isHome ? (scrolled ? "bg-orange-400" : "bg-white") : "bg-orange-400" // always orange on non-home (white underline would be invisible on white bg)
+        underlineColor
       )}
       initial={{ scaleX: isActive ? 1 : 0 }}
       animate={{ scaleX: isActive ? 1 : isHovered ? 1 : 0 }}
@@ -34,6 +42,8 @@ function DropdownItem({
   index,
   scrolled,
   isHome,
+  isServicesPage,
+  textColorClass,
 }: {
   item: {
     name: string;
@@ -43,18 +53,14 @@ function DropdownItem({
   index: number;
   scrolled: boolean;
   isHome: boolean;
+  isServicesPage: boolean;
+  textColorClass: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
 
   const isDisabled =
     item.href === "/services" || item.name.toLowerCase() === "services";
-
-  const textColorClass = isHome
-    ? scrolled
-      ? "text-black"
-      : "text-white"
-    : "text-black";
 
   return (
     <motion.li
@@ -114,6 +120,7 @@ function DropdownItem({
               isActive={false}
               scrolled={scrolled}
               isHome={isHome}
+              isServicesPage={isServicesPage}
             />
           </div>
         ) : (
@@ -142,6 +149,7 @@ function DropdownItem({
                   isActive={isActive}
                   scrolled={scrolled}
                   isHome={isHome}
+                  isServicesPage={isServicesPage}
                 />
               </>
             )}
@@ -206,6 +214,8 @@ function NavItem({
   index,
   scrolled,
   isHome,
+  isServicesPage,
+  textColorClass,
 }: {
   item: {
     name: string;
@@ -215,14 +225,10 @@ function NavItem({
   index: number;
   scrolled: boolean;
   isHome: boolean;
+  isServicesPage: boolean;
+  textColorClass: string;
 }) {
   const [isHovered, setIsHovered] = useState(false);
-
-  const textColorClass = isHome
-    ? scrolled
-      ? "text-black"
-      : "text-white"
-    : "text-black";
 
   return (
     <motion.li
@@ -255,6 +261,7 @@ function NavItem({
               isActive={isActive}
               scrolled={scrolled}
               isHome={isHome}
+              isServicesPage={isServicesPage}
             />
           </>
         )}
@@ -268,12 +275,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isServicesPage = location.pathname.startsWith("/services");
 
-  const textColorClass = isHome
-    ? scrolled
-      ? "text-black"
-      : "text-white"
-    : "text-black";
+  // Centralized text color logic
+  const textColorClass =
+    (isHome && !scrolled) || isServicesPage ? "text-white" : "text-black";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -304,7 +310,7 @@ export default function Navbar() {
               <motion.img
                 src="/logo-transparent.png"
                 alt="Logo"
-                className="h-12 sm:h-16 w-auto object-contain p-2"
+                className="h-12 sm:h-16 w-auto object-contain p-2 bg-white rounded-md"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ duration: 0.2 }}
@@ -319,7 +325,7 @@ export default function Navbar() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="hidden lg:flex items-center gap-1"
           >
-            <ul className={cn("flex items-center gap-6", textColorClass)}>
+            <ul className="flex items-center gap-6">
               {NavItems.map((item, index) => {
                 const hasChildren = item.children && item.children.length > 0;
                 if (!hasChildren) {
@@ -330,6 +336,8 @@ export default function Navbar() {
                       index={index}
                       scrolled={scrolled}
                       isHome={isHome}
+                      isServicesPage={isServicesPage}
+                      textColorClass={textColorClass}
                     />
                   );
                 }
@@ -340,6 +348,8 @@ export default function Navbar() {
                     index={index}
                     scrolled={scrolled}
                     isHome={isHome}
+                    isServicesPage={isServicesPage}
+                    textColorClass={textColorClass}
                   />
                 );
               })}
@@ -357,9 +367,11 @@ export default function Navbar() {
                 ? scrolled
                   ? "text-black hover:bg-white/10"
                   : "text-white hover:bg-white/5"
-                : "text-black hover:bg-gray-100"
+                : isServicesPage
+                  ? "text-white hover:bg-white/5"
+                  : "text-black hover:bg-gray-100"
             )}
-            onClick={() => setMobileOpen(false)}
+            onClick={() => setMobileOpen(true)} // ⚠️ Fixed: was setMobileOpen(false)!
             aria-label="Open menu"
           >
             <FiMenu className={cn("h-6 w-6", textColorClass)} />
@@ -429,7 +441,7 @@ export default function Navbar() {
                             }
                             setMobileOpen(false);
                           }}
-                          className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-100 transition-colors duration-150"
+                          className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-100 transition-colors duration-150 text-black"
                         >
                           <motion.span whileHover={{ x: 5 }} className="block">
                             {item.name}
@@ -455,7 +467,7 @@ export default function Navbar() {
                                 <Link
                                   to={child.href}
                                   onClick={() => setMobileOpen(false)}
-                                  className="block rounded-md px-3 py-2 text-sm hover:bg-gray-50 transition-colors duration-150"
+                                  className="block rounded-md px-3 py-2 text-sm hover:bg-gray-50 transition-colors duration-150 text-black"
                                 >
                                   <motion.span
                                     whileHover={{ x: 5 }}
