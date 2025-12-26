@@ -19,7 +19,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-pewter leading-relaxed text-sm">
+            <p className=" leading-relaxed text-sm">
               HIYANA WORLD LOGISTICS PVT LTD is the best total transportation
               and logistics solution. We specialize in the full spectrum of
               international freight forwarding and transportation service by
@@ -37,7 +37,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-pewter hover:text-turquoise-blue transition-colors duration-200 text-sm inline-block hover:translate-x-1 transform"
+                    className=" hover:text-turquoise-blue transition-colors duration-200 text-sm inline-block hover:translate-x-1 transform"
                   >
                     {link.name}
                   </Link>
@@ -54,7 +54,7 @@ const Footer = () => {
                 <li key={link.name}>
                   <Link
                     to={link.href}
-                    className="text-pewter hover:text-turquoise-blue transition-colors duration-200 text-sm inline-block hover:translate-x-1 transform"
+                    className=" hover:text-turquoise-blue transition-colors duration-200 text-sm inline-block hover:translate-x-1 transform"
                   >
                     {link.name}
                   </Link>
@@ -69,14 +69,14 @@ const Footer = () => {
               Get in Touch
             </h3>
             <ul className="space-y-4">
-              <li className="flex gap-3 text-pewter text-sm">
+              <li className="flex gap-3  text-sm">
                 <MapPin className="w-5 h-5 text-teal-green shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
                   B-3, Gr Floor, Suyog estate Corporation Marg, Mulund (W),
                   Mumbai - 400 080. Maharashtra India.
                 </span>
               </li>
-              <li className="flex gap-3 text-pewter text-sm">
+              <li className="flex gap-3  text-sm">
                 <Phone className="w-5 h-5 text-teal-green shrink-0" />
                 <a
                   href="tel:+02225915894"
@@ -86,7 +86,7 @@ const Footer = () => {
                   +022 25915894
                 </a>
               </li>
-              <li className="flex gap-3 text-pewter text-sm">
+              <li className="flex gap-3  text-sm">
                 <Mail className="w-5 h-5 text-teal-green shrink-0" />
                 <a
                   href="mailto:info@hiyana.in"
@@ -99,7 +99,7 @@ const Footer = () => {
             </ul>
 
             {/* Social Media Links */}
-            <div className="mt-6 pt-6 border-t border-pewter/20">
+            <div className="mt-6 pt-6 border-t /20">
               <h4 className="text-white font-semibold mb-4 text-sm">
                 Connect With Us
               </h4>
@@ -135,11 +135,11 @@ const Footer = () => {
       </div>
 
       {/* Separator */}
-      <div className="border-t border-pewter/20"></div>
+      <div className="border-t /20"></div>
 
       {/* Copyright Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <p className="text-center text-pewter text-sm">
+        <p className="text-center  text-sm">
           Hiyana World Logistics Pvt Ltd © Copyright All Right Reserved{" "}
           {new Date().getFullYear()}
         </p>
