@@ -12,6 +12,7 @@ import "./app.css";
 import Navbar from "./components/Navbar";
 import ScrollSmoothProvider from "./components/ScrollSmoothProvider";
 import Footer from "./components/Footer";
+import BackToTopButton from "./components/BackToTop";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -54,6 +55,7 @@ export default function App() {
           <Outlet />
           <Footer />
         </ScrollSmoothProvider>
+        <BackToTopButton />
       </main>
     </>
   );
